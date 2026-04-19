@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country — Travel Planner</title>
+
+    <!-- Shared styles -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+
+    <!-- Country page specific styles -->
+    <link rel="stylesheet" href="css/country.css" />
+  </head>
+
+  <body>
+    <!-- ── Skip link for accessibility (claim I28) ── -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- ── Shared Navigation (match your team's nav structure) ── -->
+    <header>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="bucket-list.html">Bucket List</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <!-- ── Main Content ── -->
+    <main id="main-content">
+
+      <!-- Loading indicator (claim I14) -->
+      <div id="loading" aria-live="polite" aria-label="Loading country data">
+        <div class="spinner" role="status"></div>
+        <p>Loading country info...</p>
+      </div>
+
+      <!-- Error message (claim I13) -->
+      <p id="error-message" class="hidden" role="alert"></p>
+
+      <!-- Country content (hidden until data loads) -->
+      <section id="country-content" class="hidden" aria-label="Country details">
+
+        <!-- Country Header -->
+        <div class="country-header">
+          <img id="country-flag" src="" alt="" class="country-flag" />
+          <h1 id="country-name">Loading...</h1>
+        </div>
+
+        <!-- ── Bucket List Form ── -->
+        <aside class="bucket-form-card" aria-label="Add to bucket list">
+          <h2>Add to Bucket List</h2>
+          <div id="bucket-form">
+            <label for="bucket-label">What are you most looking forward to?</label>
+            <select id="bucket-label" name="bucket-label">
+              <option value="Food & Culture">Food & Culture</option>
+              <option value="Nature & Hiking">Nature & Hiking</option>
+              <option value="History & Architecture">History & Architecture</option>
+              <option value="Beaches & Relaxation">Beaches & Relaxation</option>
+              <option value="Adventure & Sports">Adventure & Sports</option>
+              <option value="Shopping & Nightlife">Shopping & Nightlife</option>
+            </select>
+
+            <label for="bucket-note">Personal note (optional)</label>
+            <textarea
+              id="bucket-note"
+              name="bucket-note"
+              rows="3"
+              placeholder="e.g. Want to visit during cherry blossom season..."
+              aria-label="Personal note about this country"
+            ></textarea>
+
+            <button id="bucket-btn" type="button" aria-label="Save this country to your bucket list">
+              + Add to Bucket List
+            </button>
+            <p id="bucket-msg" class="bucket-msg hidden" aria-live="polite"></p>
+          </div>
+        </aside>
+
+        <!-- ── Tabs ── -->
+        <div class="tabs-container">
+          <div class="tab-list" role="tablist" aria-label="Country information tabs">
+            <button
+              class="tab-btn active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="overview"
+              data-tab="overview"
+            >Overview</button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="history"
+              data-tab="history"
+            >History & Culture</button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="seasons"
+              data-tab="seasons"
+            >Best Time to Visit</button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="cities"
+              data-tab="cities"
+            >Major Cities</button>
+          </div>
+
+          <!-- Overview Tab -->
+          <div id="overview" class="tab-panel active" role="tabpanel" aria-label="Overview">
+            <h2>Overview</h2>
+            <dl class="info-grid">
+              <dt>Capital</dt>
+              <dd id="capital">—</dd>
+
+              <dt>Population</dt>
+              <dd id="population">—</dd>
+
+              <dt>Region</dt>
+              <dd id="region">—</dd>
+
+              <dt>Languages</dt>
+              <dd id="languages">—</dd>
+
+              <dt>Currencies</dt>
+              <dd id="currencies">—</dd>
+            </dl>
+          </div>
+
+          <!-- History & Culture Tab -->
+          <div id="history" class="tab-panel" role="tabpanel" aria-label="History and culture">
+            <h2>History & Culture</h2>
+            <img
+              id="wiki-thumbnail"
+              src=""
+              alt=""
+              class="wiki-thumbnail hidden"
+            />
+            <p id="wiki-extract"></p>
+            <p class="source-note">
+              Source: <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>
+            </p>
+          </div>
+
+          <!-- Best Time to Visit Tab -->
+          <div id="seasons" class="tab-panel" role="tabpanel" aria-label="Best time to visit">
+            <h2>Best Time to Visit</h2>
+            <div id="seasons-content"></div>
+          </div>
+
+          <!-- Major Cities Tab -->
+          <div id="cities" class="tab-panel" role="tabpanel" aria-label="Major cities">
+            <h2>Major Cities</h2>
+            <div id="cities-content"></div>
+          </div>
+
+        </div>
+        <!-- end .tabs-container -->
+
+      </section>
+    </main>
+
+    <!-- ── Shared Footer ── -->
+    <footer>
+      <p>&copy; 2026 Travel Planner — Sheshnaq Team</p>
+    </footer>
+
+    <!-- country.js loaded as a module so ES6 imports work -->
+    <script type="module" src="js/country.js"></script>
+  </body>
+</html>
