@@ -1,0 +1,305 @@
+/* country.css — Styles for the Country Detail Page */
+
+/* ── Loading & Error States ── */
+
+#loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: #666;
+}
+
+#loading.hidden,
+#error-message.hidden,
+#country-content.hidden,
+.hidden {
+  display: none;
+}
+
+#error-message {
+  text-align: center;
+  padding: 2rem;
+  color: #c0392b;
+  background: #fdf0ee;
+  border: 1px solid #e8bfbb;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+/* Simple CSS spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Country Header ── */
+
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.country-flag {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.country-header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* ── Bucket List Card ── */
+
+.bucket-form-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 0 2rem 2rem;
+}
+
+.bucket-form-card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.bucket-form-card label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.bucket-form-card select,
+.bucket-form-card textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.bucket-form-card textarea {
+  resize: vertical;
+}
+
+#bucket-btn {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#bucket-btn:hover:not(:disabled) {
+  background: #27ae60;
+  transform: translateY(-1px);
+}
+
+#bucket-btn:focus-visible {
+  outline: 3px solid #2980b9;
+  outline-offset: 2px;
+}
+
+#bucket-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.bucket-msg {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.bucket-msg.success {
+  background: #d5f5e3;
+  color: #1e8449;
+}
+
+.bucket-msg.info {
+  background: #eaf4fb;
+  color: #2980b9;
+}
+
+/* ── Tabs ── */
+
+.tabs-container {
+  padding: 0 2rem 2rem;
+}
+
+.tab-list {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #555;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  border-radius: 4px 4px 0 0;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: #2980b9;
+  background: #f0f7ff;
+}
+
+.tab-btn:focus-visible {
+  outline: 3px solid #2980b9;
+  outline-offset: 2px;
+}
+
+.tab-btn.active {
+  color: #2980b9;
+  border-bottom-color: #2980b9;
+  font-weight: 600;
+}
+
+/* Tab panels — fade in when activated (claim I18) */
+.tab-panel {
+  display: none;
+  opacity: 0;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Overview info grid ── */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.6rem 1.5rem;
+  margin: 0;
+}
+
+.info-grid dt {
+  font-weight: 600;
+  color: #555;
+}
+
+.info-grid dd {
+  margin: 0;
+}
+
+/* ── History tab ── */
+
+.wiki-thumbnail {
+  float: right;
+  max-width: 220px;
+  margin: 0 0 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.source-note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* ── Skip link (claim I28) ── */
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: #2980b9;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Responsive (claim B11) ── */
+
+@media (max-width: 600px) {
+  .country-header {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .country-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .country-flag {
+    width: 70px;
+  }
+
+  .bucket-form-card {
+    margin: 0 1rem 1.5rem;
+    padding: 1rem;
+  }
+
+  .tabs-container {
+    padding: 0 1rem 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .wiki-thumbnail {
+    float: none;
+    max-width: 100%;
+    margin: 0 0 1rem 0;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .info-grid dt {
+    margin-top: 0.5rem;
+  }
+}
