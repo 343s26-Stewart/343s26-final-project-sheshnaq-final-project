@@ -1,0 +1,58 @@
+/* home.css — Styles specific to the home page */
+
+/* ── Hero bucket-teaser spacing ── */
+#bucket-teaser {
+  margin-top: var(--space-lg);
+}
+
+/* ── How it works section ── */
+.how-it-works {
+  background: var(--color-bg-alt);
+  transition: background var(--transition);
+}
+
+.steps-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-lg);
+  padding: 0;
+  counter-reset: none;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--color-text);
+}
+
+.step-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .steps-list { grid-template-columns: 1fr; gap: var(--space-md); }
+}

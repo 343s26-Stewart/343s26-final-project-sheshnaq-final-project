@@ -1,8 +1,12 @@
 // country.js — Logic for the Country Detail Page
-// Reads ?name= from the URL, fetches data, builds the tabbed UI,
-// handles the "Add to Bucket List" feature, and manages error/loading states.
 
-import { fetchAllCountryInfo } from "./api.js";
+import { fetchAllCountryInfo }  from './api.js';
+import { renderNav, renderFooter } from './components.js';
+import { initTheme }            from './theme.js';
+
+renderNav('');   // no active page since country isn't in the nav
+renderFooter();
+initTheme();
 
 // ─── 1. Read country name from URL ───────────────────────────────────────────
 
@@ -26,7 +30,6 @@ const tabButtons = document.querySelectorAll(".tab-btn");
 const tabPanels = document.querySelectorAll(".tab-panel");
 
 // Bucket list form elements
-const bucketForm = document.getElementById("bucket-form");
 const bucketNote = document.getElementById("bucket-note");
 const bucketLabel = document.getElementById("bucket-label");
 const bucketBtn = document.getElementById("bucket-btn");
