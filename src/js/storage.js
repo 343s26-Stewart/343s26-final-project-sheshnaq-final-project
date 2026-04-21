@@ -24,7 +24,7 @@ export function addEntry(entry) {
   if (idx >= 0) {
     all[idx] = { ...all[idx], ...entry };
   } else {
-    all.push({ visited: false, dateSaved: new Date().toISOString().split('T')[0], ...entry });
+    all.push({ visited: false, favorite: false, dateSaved: new Date().toISOString().split('T')[0], ...entry });
   }
   persist(all);
 }
@@ -38,6 +38,15 @@ export function toggleVisited(name) {
   const idx = all.findIndex(e => e.name === name);
   if (idx >= 0) {
     all[idx].visited = !all[idx].visited;
+    persist(all);
+  }
+}
+
+export function toggleFavorite(name) {
+  const all = getAll();
+  const idx = all.findIndex(e => e.name === name);
+  if (idx >= 0) {
+    all[idx].favorite = !all[idx].favorite;
     persist(all);
   }
 }

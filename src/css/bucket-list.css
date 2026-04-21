@@ -34,6 +34,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  position: relative;
+  width: 100%;
 
   display: flex;
   flex-direction: row;
@@ -44,12 +46,6 @@
               border-color var(--transition);
 }
 
-.bucket-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-primary);
-}
-
 /* ---Image--------------------- */
 
 .bucket-card img {
@@ -57,7 +53,6 @@
   height: 100%;
 
   object-fit: contain;
-  background: var(--color-bg);
 
   flex-shrink: 0;
 
@@ -65,7 +60,6 @@
 
   padding: 10px;
   box-sizing: border-box;
-  object-fit: contain;
   background: var(--color-bg-alt);
 }
 
@@ -151,6 +145,37 @@
   display: flex;
   gap: var(--space-sm);
   flex-wrap: wrap;
+}
+
+/* ---Favorite--------------------- */
+.favorite-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  font-size: 1.4rem;
+  line-height: 1;
+
+  color: #bbb;
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  color: gold;
+}
+
+.bucket-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
 }
 
 /* ---Empty State---------------------*/

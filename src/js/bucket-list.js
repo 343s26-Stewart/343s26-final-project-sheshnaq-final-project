@@ -12,7 +12,9 @@ const emptyState = document.getElementById('empty-state');
 const countEl = document.getElementById('bucket-count');
 
 function render() {
-  const entries = storage.getAll();
+  const entries = storage.getAll()
+  .slice()
+  .sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0));
 
   grid.innerHTML = '';
 
@@ -27,39 +29,73 @@ function render() {
   }
 
   entries.forEach(entry => {
-    const card = document.createElement('div');
+    const card = document.createElement('article');
     card.className = 'bucket-card';
 
 card.innerHTML = `
-  <img src="${entry.flag}" alt="${entry.name} flag" />
+    <img 
+      src="${entry.flag}" 
+      alt="Flag of ${entry.name}" 
+    />
 
-  <div class="bucket-card-body">
-    
-    <div class="bucket-card-header">
-      <h3 class="bucket-card-title">${entry.name}</h3>
-      <span class="bucket-status ${entry.visited ? 'visited' : 'planned'}">
-        ${entry.visited ? 'Visited' : 'Planned'}
-      </span>
-    </div>
+    <div class="bucket-card-body">
+      
+      <div class="bucket-card-header">
+        <h3 class="bucket-card-title">${entry.name}</h3>
 
-    <div class="bucket-meta">
-      <p><strong>Capital:</strong> ${entry.capital || 'N/A'}</p>
-      <p><strong>Category:</strong> ${entry.label || 'N/A'}</p>
-      <p><strong>Saved:</strong> ${entry.dateSaved || '—'}</p>
-    </div>
+        <span 
+          class="bucket-status ${entry.visited ? 'visited' : 'planned'}"
+          role="status"
+          aria-label="Status: ${entry.visited ? 'Visited' : 'Planned'}"
+        >
+          ${entry.visited ? 'Visited' : 'Planned'}
+        </span>
+      </div>
 
-    <textarea class="bucket-notes" placeholder="Write your trip notes...">${entry.note || ''}</textarea>
+      <div class="bucket-meta" aria-label="Destination details">
+        <p><strong>Capital:</strong> ${entry.capital || 'N/A'}</p>
+        <p><strong>Category:</strong> ${entry.label || 'N/A'}</p>
+        <p><strong>Saved:</strong> ${entry.dateSaved || '—'}</p>
+      </div>
 
-    <div class="bucket-actions">
-      <button class="btn btn-outline toggle-btn">
-        ${entry.visited ? 'Mark Planned' : 'Mark Visited'}
+      <label class="sr-only" for="notes-${entry.name}">
+        Trip notes for ${entry.name}
+      </label>
+
+      <textarea 
+        id="notes-${entry.name}"
+        class="bucket-notes" 
+        placeholder="Write your trip notes..."
+        aria-label="Trip notes for ${entry.name}"
+      >${entry.note || ''}</textarea>
+
+      <div class="bucket-actions" aria-label="Card actions for ${entry.name}">
+        
+        <button 
+          class="btn btn-outline toggle-btn"
+          aria-label="${entry.visited ? 'Mark as planned' : 'Mark as visited'} for ${entry.name}"
+        >
+          ${entry.visited ? 'Mark Planned' : 'Mark Visited'}
+        </button>
+
+        <button 
+          class="btn btn-outline remove-btn"
+          aria-label="Remove ${entry.name} from bucket list"
+        >
+          Remove
+        </button>
+      </div>
+
+      <button 
+        class="favorite-btn ${entry.favorite ? 'active' : ''}" 
+        aria-label="${entry.favorite ? 'Remove from favorites' : 'Add to favorites'} for ${entry.name}"
+        aria-pressed="${entry.favorite ? 'true' : 'false'}"
+      >
+        ${entry.favorite ? '★' : '☆'}
       </button>
 
-      <button class="btn btn-outline remove-btn">
-        Remove
-      </button>
     </div>
-  </div>
+  </article>
 `;
 
 const textarea = card.querySelector('.bucket-notes');
@@ -83,6 +119,12 @@ textarea.addEventListener('input', () => {
     // Remove
     card.querySelector('.remove-btn').addEventListener('click', () => {
       storage.removeEntry(entry.name);
+      render();
+    });
+
+    // favorite
+    card.querySelector('.favorite-btn').addEventListener('click', () => {
+      storage.toggleFavorite(entry.name);
       render();
     });
 
