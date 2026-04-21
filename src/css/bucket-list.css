@@ -1,140 +1,204 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* ---Layout--------------------- */
+
+.bucket-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: var(--space-lg);
 }
 
-html, body {
-    height: 100%;
+.bucket-page .section-header {
+  margin-bottom: var(--space-lg);
 }
 
-body {
-    display: flex;
+.bucket-count {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---Grid--------------------- */
+
+.bucket-grid {
+  width: 100%;
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: var(--space-lg);
+}
+
+/* ---Cards--------------------- */
+
+.bucket-card {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  transition: transform var(--transition),
+              box-shadow var(--transition),
+              border-color var(--transition);
+}
+
+.bucket-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+/* ---Image--------------------- */
+
+.bucket-card img {
+  width: 180px;
+  height: 100%;
+
+  object-fit: contain;
+  background: var(--color-bg);
+
+  flex-shrink: 0;
+
+  border-right: 1px solid var(--color-border);
+
+  padding: 10px;
+  box-sizing: border-box;
+  object-fit: contain;
+  background: var(--color-bg-alt);
+}
+
+/* ---Content---------------------*/
+
+.bucket-card-body {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex: 1;
+  min-width: 0;
+}
+
+.bucket-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--space-sm);
+}
+
+.bucket-card-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+
+.bucket-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+/* ---Notes--------------------- */
+.bucket-notes {
+  width: 100%;
+  min-height: 70px;
+  resize: vertical;
+
+  padding: 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  transition: border-color var(--transition);
+}
+
+.bucket-notes:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ---Status--------------------- */
+
+.bucket-status {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  width: fit-content;
+  font-weight: 600;
+}
+
+.bucket-status.visited {
+  background: var(--color-success);
+  color: white;
+}
+
+.bucket-status.planned {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* ---Actions (Buttons)---------------------*/
+
+.bucket-actions {
+  margin-top: auto;
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* ---Empty State---------------------*/
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  color: var(--color-text-muted);
+
+  max-width: 520px;
+  margin: var(--space-xl) auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.empty-state p {
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.empty-state .btn {
+  width: fit-content;
+}
+
+/* ---Responsive Stuff---------------------*/
+
+
+@media (max-width: 800px) {
+  .bucket-card {
     flex-direction: column;
-    background: #540084;
-    color: #fff;
-}
+  }
 
-header {
-    text-align: center;
-    padding: 20px;
-    background: #333;
-}
+  .bucket-grid {
+    grid-template-columns: 1fr; 
+  }
 
-.container {
-    flex: 1;
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 0 20px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.place-card {
-    display: flex;
-    flex-direction: row;
-
-    background-color: #ffffff;
-    color: #000;
-
-    border-radius: 10px;
-    overflow: hidden;
-
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-
-    height: 250px;
-}
-
-.place-card img {
-    width: 220px;
-    height: 100%;
-    object-fit: cover;
-}
-
-.place-info {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-}
-
-.place-info h2 {
-    margin-bottom: 6px;
-    font-size: 1.1rem;
-}
-
-.description {
-    font-size: 0.9rem;
-    margin-bottom: 6px;
-}
-
-.best-time {
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-}
-
-button {
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.visited-btn {
-    background: #28a745;
-    color: #fff;
-}
-
-.remove-btn {
-    background: #dc3545;
-    color: #fff;
-}
-
-.notes {
+  .bucket-card img {
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: vertical;
-}
-
-footer {
-    background: #333;
-    text-align: center;
-    padding: 15px;
-}
-
-footer a {
-    color: #ffd700;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-footer a:hover {
-    color: #4da6ff;
-}
-
-/* Responsive stuff */
-@media (max-width: 768px) {
-    .place-card {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .place-card img {
-        width: 100%;
-        height: 200px;
-    }
+    height: 180px;          
+    object-fit: contain;    
+    
+    background: var(--color-bg-alt);
+    
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
 }

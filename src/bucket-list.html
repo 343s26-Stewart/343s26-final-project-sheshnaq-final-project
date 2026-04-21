@@ -1,76 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Wishlist</title>
-    <link rel="stylesheet" href="css/bucket-list.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bucket List — Wanderlist</title>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/bucket-list.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>My Travel Wishlist</h1>
-        <p>Places I want to visit</p>
+  <!-- Shared nav injected by components.js -->
+  <div id="nav-placeholder"></div>
+
+  <main id="main-content" class="section bucket-page">
+
+    <header class="section-header">
+      <h1 class="section-title">My Bucket List</h1>
+      <p id="bucket-count" class="bucket-count"></p>
     </header>
 
-    <main class="container">
+    <!-- Empty state -->
+    <section id="empty-state" class="empty-state hidden" aria-live="polite">
+      <p>No destinations saved yet.</p>
+      <a href="explore.html" class="btn btn-primary">Explore Countries</a>
+    </section>
 
-    <!-- Example Card -->
-        <div class="place-card">
-            <img src="https://via.placeholder.com/400x250" alt="Paris">
+    <!-- Grid -->
+    <section id="bucket-grid" class="bucket-grid" aria-label="Saved destinations">
+    </section>
 
-            <div class="place-info">
-                <h2>Paris, France</h2>
+  </main>
 
-                <p class="description">
-                    wow paris is so cool.
-                </p>
+  <!-- Shared footer injected by components.js -->
+  <div id="footer-placeholder"></div>
 
-                <p class="best-time">
-                    <strong>Best time to visit:</strong> April to June, September to October
-                </p>
-
-                <p>Notes:</p>
-                <textarea class="notes" placeholder="Write your travel notes here..." rows="3"></textarea>
-
-                <div class="buttons">
-                    <button type="button" class="visited-btn">Visited</button>
-                    <button type="button" class="remove-btn">Remove</button>
-                </div>
-            </div>
-        </div>
-
-<!-- Example Card 2 -->
-        <div class="place-card">
-            <img src="https://via.placeholder.com/400x250" alt="Paris">
-
-            <div class="place-info">
-                <h2>Paris, France</h2>
-
-                <p class="description">
-                    wow paris is so cool.
-                </p>
-
-                <p class="best-time">
-                    <strong>Best time to visit:</strong> April to June, September to October
-                </p>
-
-                <p>Notes:</p>
-                <textarea class="notes" placeholder="Write your travel notes here..." rows="3"></textarea>
-
-                <div class="buttons">
-                    <button type="button" class="visited-btn">Visited</button>
-                    <button type="button" class="remove-btn">Remove</button>
-                </div>
-            </div>
-        </div>
-
-    </main>
-    <script src="js/bucket-list.js"></script>
-
-    <footer>
-        <a href="index.html" id="home">Go to Home</a>
-    </footer>
+  <script type="module" src="js/bucket-list.js"></script>
 </body>
 </html>

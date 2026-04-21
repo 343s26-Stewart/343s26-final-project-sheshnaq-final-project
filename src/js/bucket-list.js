@@ -1,134 +1,93 @@
-const container = document.getElementById("placeList");
+import { renderNav, renderFooter } from './components.js';
+import { initTheme } from './theme.js';
+import * as storage from './storage.js';
 
-/* save all cards to storage */
-function saveCards() {
-    const cards = document.querySelectorAll(".place-card");
+// ── Shared setup ─────────────────────────────────────────────────────────────
+renderNav('bucket-list');
+renderFooter();
+initTheme();
 
-    const data = [];
+const grid = document.getElementById('bucket-grid');
+const emptyState = document.getElementById('empty-state');
+const countEl = document.getElementById('bucket-count');
 
-    cards.forEach(card => {
-    data.push({
-        img: card.querySelector("img").src,
-        title: card.querySelector("h2").textContent,
-        description: card.querySelector(".description").textContent,
-        bestTime: card.querySelector(".best-time").textContent.replace("Best time to visit:", "").trim(),
-        notes: card.querySelector(".notes").value,
-        visited: card.classList.contains("visited")
-    });
-    });
+function render() {
+  const entries = storage.getAll();
 
-    localStorage.setItem("travelCards", JSON.stringify(data));
-}
+  grid.innerHTML = '';
 
-/* create the card given data parsed through JSON */
-function createCard(data) {
-    const card = document.createElement("div");
-    card.className = "place-card";
+  countEl.textContent = `${entries.length} destination${entries.length !== 1 ? 's' : ''}`;
 
-    if (data.visited) {
-        card.classList.add("visited");
-    }
+  // Empty state (when there are no bucketList objects in local storage)
+  if (entries.length === 0) {
+    emptyState.classList.remove('hidden');
+    return;
+  } else {
+    emptyState.classList.add('hidden');
+  }
 
-    const img = document.createElement("img");
-    img.src = data.img;
+  entries.forEach(entry => {
+    const card = document.createElement('div');
+    card.className = 'bucket-card';
 
-    const info = document.createElement("div");
-    info.className = "place-info";
+card.innerHTML = `
+  <img src="${entry.flag}" alt="${entry.name} flag" />
 
-    const title = document.createElement("h2");
-    title.textContent = data.title;
+  <div class="bucket-card-body">
+    
+    <div class="bucket-card-header">
+      <h3 class="bucket-card-title">${entry.name}</h3>
+      <span class="bucket-status ${entry.visited ? 'visited' : 'planned'}">
+        ${entry.visited ? 'Visited' : 'Planned'}
+      </span>
+    </div>
 
-    const description = document.createElement("p");
-    description.className = "description";
-    description.textContent = data.description;
+    <div class="bucket-meta">
+      <p><strong>Capital:</strong> ${entry.capital || 'N/A'}</p>
+      <p><strong>Category:</strong> ${entry.label || 'N/A'}</p>
+      <p><strong>Saved:</strong> ${entry.dateSaved || '—'}</p>
+    </div>
 
-    const bestTime = document.createElement("p");
-    bestTime.className = "best-time";
-    bestTime.innerHTML = `<strong>Best time to visit:</strong> ${data.bestTime}`;
+    <textarea class="bucket-notes" placeholder="Write your trip notes...">${entry.note || ''}</textarea>
 
-  // Notes
-    const notesLabel = document.createElement("p");
-    notesLabel.textContent = "Notes:";
+    <div class="bucket-actions">
+      <button class="btn btn-outline toggle-btn">
+        ${entry.visited ? 'Mark Planned' : 'Mark Visited'}
+      </button>
 
-    const notes = document.createElement("textarea");
-    notes.className = "notes";
-    notes.rows = 3;
-    notes.value = data.notes || "";
+      <button class="btn btn-outline remove-btn">
+        Remove
+      </button>
+    </div>
+  </div>
+`;
 
-  // Buttons
-    const btns = document.createElement("div");
-    btns.className = "buttons";
+const textarea = card.querySelector('.bucket-notes');
 
-    const visitedBtn = document.createElement("button");
-    visitedBtn.type = "button";
-    visitedBtn.className = "visited-btn";
-    visitedBtn.textContent = "Visited";
+textarea.addEventListener('input', () => {
+  const all = storage.getAll();
+  const idx = all.findIndex(e => e.name === entry.name);
 
-    const removeBtn = document.createElement("button");
-    removeBtn.type = "button";
-    removeBtn.className = "remove-btn";
-    removeBtn.textContent = "Remove";
+  if (idx >= 0) {
+    all[idx].note = textarea.value;
+    localStorage.setItem('bucketList', JSON.stringify(all));
+  }
+});
 
-/* adds functionality to Visited button */
-    visitedBtn.addEventListener("click", () => {
-    card.classList.toggle("visited");
-
-    if (card.classList.contains("visited")) {
-        visitedBtn.textContent = "Unmark";
-    } else {
-        visitedBtn.textContent = "Visited";
-    }
-
-    saveCards();
+    // visited
+    card.querySelector('.toggle-btn').addEventListener('click', () => {
+      storage.toggleVisited(entry.name);
+      render();
     });
 
-    /* allows remove button to actually remove card. 
-    Also removes card from localStorage. */
-    removeBtn.addEventListener("click", () => {
-        card.remove();
-        saveCards();
+    // Remove
+    card.querySelector('.remove-btn').addEventListener('click', () => {
+      storage.removeEntry(entry.name);
+      render();
     });
 
-    notes.addEventListener("input", saveCards);
-
-    btns.appendChild(visitedBtn);
-    btns.appendChild(removeBtn);
-
-    info.appendChild(title);
-    info.appendChild(description);
-    info.appendChild(bestTime);
-    info.appendChild(notesLabel);
-    info.appendChild(notes);
-    info.appendChild(btns);
-
-    card.appendChild(img);
-    card.appendChild(info);
-
-    container.appendChild(card);
+    grid.appendChild(card);
+  });
 }
 
-/* load all saved cards */
-function loadCards() {
-    const saved = localStorage.getItem("travelCards");
-
-    if (!saved) return;
-
-    JSON.parse(saved).forEach(createCard);
-}
-
-/* add a new location */
-function addLocation(img, description, bestTime, title = "New Location") {
-    createCard({
-        img,
-        description,
-        bestTime,
-        title,
-        notes: "",
-        visited: false
-        });
-
-    saveCards();
-}
-
-/* run loadCards once the page loads */
-loadCards();
+render();
