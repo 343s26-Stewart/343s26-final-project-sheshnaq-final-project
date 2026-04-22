@@ -14,13 +14,13 @@
 <body>
 
   <!-- Shared nav injected by components.js -->
-  <div id="nav-placeholder"></div>
+  <nav id="nav-placeholder"></nav>
 
   <main id="main-content">
 
     <!-- ── Hero ── -->
     <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-content">
+      <header class="hero-content">
         <h1 class="hero-title" id="hero-heading">Your next adventure awaits</h1>
         <p class="hero-subtitle">
           Discover countries, explore their history and culture, and build your personal travel bucket list.
@@ -38,27 +38,27 @@
           >
           <button type="submit" class="btn btn-white">Explore</button>
         </form>
-      </div>
+    </header>
     </section>
 
     <!-- ── Bucket list teaser (only visible when entries exist) ── -->
-    <div class="container">
-      <div class="bucket-teaser hidden" id="bucket-teaser" role="status" aria-live="polite">
+    <section class="container">
+      <aside class="bucket-teaser hidden" id="bucket-teaser" role="status" aria-live="polite">
         <p id="bucket-teaser-text"></p>
         <a href="bucket-list.html" class="btn btn-outline">View Bucket List</a>
-      </div>
-    </div>
+      </aside>
+    </section>
 
     <!-- ── Featured Destinations ── -->
     <section class="section" aria-labelledby="featured-heading">
       <div class="container">
-        <div class="section-header">
+        <header class="section-header">
           <h2 class="section-title" id="featured-heading">Popular Destinations</h2>
           <a href="explore.html" class="btn btn-outline">Browse all</a>
-        </div>
-        <div class="card-grid" id="featured-grid">
+        </header>
+        <ul class="card-grid" id="featured-grid">
           <!-- Cards injected by home.js -->
-        </div>
+        </ul>
       </div>
     </section>
 
@@ -69,24 +69,24 @@
         <ol class="steps-list">
           <li class="step-item">
             <span class="step-number" aria-hidden="true">1</span>
-            <div>
+            <article>
               <h3 class="step-title">Search a country</h3>
               <p class="step-desc">Type any country name to pull up its history, capital, languages, and best time to visit.</p>
-            </div>
+            </article>
           </li>
           <li class="step-item">
             <span class="step-number" aria-hidden="true">2</span>
-            <div>
+            <article>
               <h3 class="step-title">Save it to your list</h3>
               <p class="step-desc">Add a personal note and tag what excites you most — food, nature, history, and more.</p>
-            </div>
+            </article>
           </li>
           <li class="step-item">
             <span class="step-number" aria-hidden="true">3</span>
-            <div>
+            <article>
               <h3 class="step-title">Track your travels</h3>
               <p class="step-desc">Mark countries as visited and watch your bucket list turn into a travel journal.</p>
-            </div>
+            </article>
           </li>
         </ol>
       </div>
@@ -95,7 +95,7 @@
   </main>
 
   <!-- Shared footer injected by components.js -->
-  <div id="footer-placeholder"></div>
+  <footer id="footer-placeholder"></footer>
 
   <script type="module" src="js/home.js"></script>
 </body>
