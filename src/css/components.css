@@ -200,7 +200,11 @@
 }
 .btn-outline:hover { background: var(--color-primary-light); color: var(--color-primary); }
 
-.btn-white { background: #fff; color: var(--color-primary); }
+.btn-white { background: #fff; 
+  /* color: var(--color-primary); */
+  color: #23639a; /* darker blue — contrast >= 4.5:1 on #ffffff */
+  border-color: currentColor;
+}
 .btn-white:hover { background: var(--color-primary-light); color: var(--color-primary-dark); }
 
 /* ── Country Card ── */

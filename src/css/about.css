@@ -34,7 +34,8 @@
 
 .team-card p {
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  /* color: var(--color-text-muted); */
+  color: #575f66;
 }
 
 /* Stack cards vertically on small screens */
