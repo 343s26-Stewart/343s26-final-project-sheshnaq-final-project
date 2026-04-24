@@ -103,7 +103,7 @@
 }
 
 #bucket-btn {
-  background: #2ecc71;
+  background: #1e7e34;
   color: white;
   border: none;
   padding: 0.7rem 1.5rem;
@@ -114,7 +114,7 @@
 }
 
 #bucket-btn:hover:not(:disabled) {
-  background: #27ae60;
+  background: #155729;
   transform: translateY(-1px);
 }
 

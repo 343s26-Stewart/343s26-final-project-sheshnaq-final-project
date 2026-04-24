@@ -31,13 +31,16 @@
 
       <!-- Country Header -->
       <header class="country-header">
+      <header class="country-header">
         <img id="country-flag" class="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
         <h1 id="country-name">Loading...</h1>
+      </header>
       </header>
 
       <!-- Bucket List Form -->
       <aside class="bucket-form-card" aria-label="Add to bucket list">
         <h2>Add to Bucket List</h2>
+        <form id="bucket-form">
         <form id="bucket-form">
           <label for="bucket-label">What are you most looking forward to?</label>
           <select id="bucket-label" name="bucket-label">
@@ -59,13 +62,17 @@
           ></textarea>
 
           <button id="bucket-btn" type="submit" class="btn btn-success">
+          <button id="bucket-btn" type="submit" class="btn btn-success">
             + Add to Bucket List
           </button>
           <p id="bucket-msg" class="bucket-msg hidden" aria-live="polite"></p>
         </form>
+        </form>
       </aside>
 
       <!-- Tabs -->
+      <section class="tabs-container">
+        <div class="tab-list" role="tablist" aria-label="Country information tabs">
       <section class="tabs-container">
         <nav class="tab-list" role="tablist" aria-label="Country information tabs">
           <button type="button" class="tab-btn active" role="tab" aria-selected="true"  aria-controls="overview" data-tab="overview">Overview</button>
@@ -113,6 +120,7 @@
   </main>
 
   <!-- Shared footer injected by country.js -->
+  <footer id="footer-placeholder"></footer>
   <footer id="footer-placeholder"></footer>
 
   <script type="module" src="js/country.js"></script>

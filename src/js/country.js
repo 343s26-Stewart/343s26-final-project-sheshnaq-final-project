@@ -135,7 +135,8 @@ tabButtons.forEach((btn) => {
 
 // ─── 5. Add to Bucket List ────────────────────────────────────────────────────
 
-bucketBtn.addEventListener("click", () => {
+document.getElementById("bucket-form").addEventListener("submit", (e) => {
+  e.preventDefault();
   const params = new URLSearchParams(window.location.search);
   const name = params.get("name");
 
