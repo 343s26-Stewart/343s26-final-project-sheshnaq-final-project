@@ -11,9 +11,16 @@ const WIKIPEDIA_BASE = "https://en.wikipedia.org/api/rest_v1/page/summary";
  * @returns {Promise<Object>} - country data object
  */
 export async function fetchCountryData(countryName) {
-  const response = await fetch(
-    `${REST_COUNTRIES_BASE}/name/${encodeURIComponent(countryName)}?fullText=false`
-  );
+  let response;
+  try {
+    response = await fetch(
+      `${REST_COUNTRIES_BASE}/name/${encodeURIComponent(countryName)}?fullText=false`
+    );
+  } catch {
+    // Network-level failure (offline, DNS failure, etc.)
+    throw new Error("network");
+  }
+
   if (!response.ok) {
     throw new Error(`Could not find country: "${countryName}"`);
   }
@@ -27,11 +34,19 @@ export async function fetchCountryData(countryName) {
  * @returns {Promise<Object>} - Wikipedia summary object { title, extract, thumbnail }
  */
 export async function fetchWikipediaSummary(countryName) {
-  const response = await fetch(
-    `${WIKIPEDIA_BASE}/${encodeURIComponent(countryName)}`
-  );
+  let response;
+  try {
+    response = await fetch(
+      `${WIKIPEDIA_BASE}/${encodeURIComponent(countryName)}`
+    );
+  } catch {
+    // Network-level failure — Wikipedia is optional, return empty object
+    return {};
+  }
+
   if (!response.ok) {
-    throw new Error(`Could not load Wikipedia summary for "${countryName}"`);
+    // Wikipedia failing is non-fatal — return empty object so page still renders
+    return {};
   }
   return await response.json();
 }

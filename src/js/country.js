@@ -21,24 +21,24 @@ if (!countryName) {
 // ─── 2. DOM References ────────────────────────────────────────────────────────
 
 const loadingEl = document.getElementById("loading");
-const errorEl = document.getElementById("error-message");
+const errorEl   = document.getElementById("error-message");
 const contentEl = document.getElementById("country-content");
 
-// Tab buttons
+// Tab buttons & panels
 const tabButtons = document.querySelectorAll(".tab-btn");
-// Tab panels
-const tabPanels = document.querySelectorAll(".tab-panel");
+const tabPanels  = document.querySelectorAll(".tab-panel");
 
 // Bucket list form elements
-const bucketNote = document.getElementById("bucket-note");
+const bucketNote  = document.getElementById("bucket-note");
 const bucketLabel = document.getElementById("bucket-label");
-const bucketBtn = document.getElementById("bucket-btn");
-const bucketMsg = document.getElementById("bucket-msg");
+const bucketBtn   = document.getElementById("bucket-btn");
+const bucketMsg   = document.getElementById("bucket-msg");
 
 // ─── 3. Fetch & Render ────────────────────────────────────────────────────────
 
 async function loadCountry() {
   showLoading(true);
+  hideError();
 
   try {
     const { country, wiki } = await fetchAllCountryInfo(countryName);
@@ -47,16 +47,26 @@ async function loadCountry() {
     contentEl.classList.remove("hidden");
   } catch (err) {
     showLoading(false);
-    showError(
-      "We couldn't load data for this country. Please check your connection and try again."
-    );
-    console.error(err);
+
+    // Distinguish between offline/network failure and a "country not found" error
+    if (err.message === "network" || !navigator.onLine) {
+      showError(
+        "⚠️ No internet connection. Please check your network and try again.",
+        true // showRetry
+      );
+    } else {
+      showError(
+        `We couldn't find data for "${countryName}". Please check the spelling or try a different country.`
+      );
+    }
+
+    console.error("Country load failed:", err);
   }
 }
 
 function renderPage(country, wiki) {
   // ── Page title ──
-  document.title = `${country.name.common} — Travel Planner`;
+  document.title = `${country.name.common} — Wanderlist`;
   document.getElementById("country-name").textContent = country.name.common;
   document.getElementById("country-flag").src = country.flags.svg;
   document.getElementById("country-flag").alt = `Flag of ${country.name.common}`;
@@ -78,9 +88,9 @@ function renderPage(country, wiki) {
 
   // ── History & Culture Tab (Wikipedia) ──
   document.getElementById("wiki-extract").textContent =
-    wiki.extract ?? "No summary available.";
+    wiki?.extract ?? "No summary available.";
 
-  if (wiki.thumbnail?.source) {
+  if (wiki?.thumbnail?.source) {
     const img = document.getElementById("wiki-thumbnail");
     img.src = wiki.thumbnail.source;
     img.alt = `${country.name.common} — Wikipedia image`;
@@ -88,14 +98,10 @@ function renderPage(country, wiki) {
   }
 
   // ── Best Time to Visit Tab ──
-  // Uses a small hardcoded dataset for a few countries,
-  // falls back to a generic message for others.
   const seasons = getBestSeasons(country.name.common);
   document.getElementById("seasons-content").innerHTML = seasons;
 
   // ── Major Cities Tab ──
-  // REST Countries doesn't provide cities, so we list the capital
-  // and note that more info can be found on Wikipedia.
   const capital = country.capital?.[0] ?? "Unknown";
   document.getElementById("cities-content").innerHTML = `
     <p><strong>Capital:</strong> ${capital}</p>
@@ -115,16 +121,17 @@ tabButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const target = btn.dataset.tab;
 
-    // Deactivate all tabs
-    tabButtons.forEach((b) => b.classList.remove("active"));
+    tabButtons.forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-selected", "false");
+    });
     tabPanels.forEach((p) => p.classList.remove("active"));
 
-    // Activate selected tab
     btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
     document.getElementById(target).classList.add("active");
   });
 
-  // Keyboard support: Enter or Space activates tab
   btn.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -135,24 +142,17 @@ tabButtons.forEach((btn) => {
 
 // ─── 5. Add to Bucket List ────────────────────────────────────────────────────
 
-document.getElementById("bucket-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const params = new URLSearchParams(window.location.search);
-  const name = params.get("name");
-
-  // Read current bucket list from localStorage
+bucketBtn.addEventListener("click", () => {
+  const name = new URLSearchParams(window.location.search).get("name");
   const existing = JSON.parse(localStorage.getItem("bucketList") || "[]");
 
-  // Check if already saved
   if (existing.find((entry) => entry.name === name)) {
-    bucketMsg.textContent = "Already in your bucket list!";
-    bucketMsg.className = "bucket-msg info";
+    showBucketMsg("Already in your bucket list!", "info");
     return;
   }
 
-  // Build new entry — matches the agreed data shape
   const newEntry = {
-    name: name,
+    name,
     flag: document.getElementById("country-flag").src,
     capital: document.getElementById("capital").textContent,
     label: bucketLabel.value,
@@ -164,9 +164,7 @@ document.getElementById("bucket-form").addEventListener("submit", (e) => {
   existing.push(newEntry);
   localStorage.setItem("bucketList", JSON.stringify(existing));
 
-  // Feedback to user
-  bucketMsg.textContent = `${name} added to your bucket list! 🌍`;
-  bucketMsg.className = "bucket-msg success";
+  showBucketMsg(`${name} added to your bucket list! 🌍`, "success");
   bucketBtn.textContent = "✓ Saved";
   bucketBtn.disabled = true;
 });
@@ -179,8 +177,13 @@ function updateBucketButtonState(name) {
   }
 }
 
+function showBucketMsg(text, type) {
+  bucketMsg.textContent = text;
+  bucketMsg.className = `bucket-msg ${type}`;
+  bucketMsg.classList.remove("hidden");
+}
+
 // ─── 6. Best Seasons Data ─────────────────────────────────────────────────────
-// Hardcoded for popular destinations; generic fallback for others.
 
 function getBestSeasons(countryName) {
   const data = {
@@ -238,8 +241,17 @@ function showLoading(visible) {
   loadingEl.classList.toggle("hidden", !visible);
 }
 
-function showError(message) {
-  errorEl.textContent = message;
+function hideError() {
+  errorEl.classList.add("hidden");
+  errorEl.innerHTML = "";
+}
+
+function showError(message, showRetry = false) {
+  errorEl.innerHTML = `
+    <span class="error-icon">⚠️</span>
+    <span class="error-text">${message}</span>
+    ${showRetry ? `<button class="btn btn-outline retry-btn" onclick="location.reload()">Try Again</button>` : ""}
+  `;
   errorEl.classList.remove("hidden");
   loadingEl.classList.add("hidden");
 }

@@ -9,39 +9,103 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/country.css">
+
+  <style>
+    /* ── Loading state ─────────────────────────────────────────── */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 4rem 1rem;
+      text-align: center;
+      color: var(--color-text-muted, #666);
+      font-size: 1rem;
+    }
+
+    .loading-state.hidden {
+      display: none;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--color-border, #e0e0e0);
+      border-top-color: var(--color-primary, #2563eb);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Error state ───────────────────────────────────────────── */
+    .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin: 3rem auto;
+      max-width: 480px;
+      padding: 2rem 1.5rem;
+      background: var(--color-error-bg, #fff5f5);
+      border: 1px solid var(--color-error-border, #fca5a5);
+      border-radius: 0.75rem;
+      text-align: center;
+      color: var(--color-error-text, #b91c1c);
+      font-size: 1rem;
+    }
+
+    .error-state.hidden {
+      display: none;
+    }
+
+    .error-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .error-text {
+      color: var(--color-error-text, #b91c1c);
+      font-weight: 500;
+    }
+
+    .retry-btn {
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Shared nav injected by country.js -->
-  <nav id="nav-placeholder"></nav>
+  <div id="nav-placeholder"></div>
 
   <main id="main-content">
 
-    <!-- Loading indicator -->
-    <section id="loading" class="loading-state" role="status" aria-live="polite">
+    <!-- Loading indicator (I14) -->
+    <div id="loading" class="loading-state" role="status" aria-live="polite" aria-label="Loading country information">
       <div class="spinner"></div>
-      <p>Loading country info...</p>
-    </section>
+      <p>Loading country info…</p>
+    </div>
 
-    <!-- Error message -->
-    <p id="error-message" class="error-state hidden" role="alert"></p>
+    <!-- Error message (I13) -->
+    <p id="error-message" class="error-state hidden" role="alert" aria-live="assertive"></p>
 
     <!-- Country content (hidden until data loads) -->
     <section id="country-content" class="hidden" aria-label="Country details">
 
       <!-- Country Header -->
-      <header class="country-header">
-      <header class="country-header">
+      <div class="country-header">
         <img id="country-flag" class="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
         <h1 id="country-name">Loading...</h1>
-      </header>
-      </header>
+      </div>
 
       <!-- Bucket List Form -->
       <aside class="bucket-form-card" aria-label="Add to bucket list">
         <h2>Add to Bucket List</h2>
-        <form id="bucket-form">
-        <form id="bucket-form">
+        <div id="bucket-form">
           <label for="bucket-label">What are you most looking forward to?</label>
           <select id="bucket-label" name="bucket-label">
             <option value="Food & Culture">Food &amp; Culture</option>
@@ -61,28 +125,24 @@
             aria-label="Personal note about this country"
           ></textarea>
 
-          <button id="bucket-btn" type="submit" class="btn btn-success">
-          <button id="bucket-btn" type="submit" class="btn btn-success">
+          <button id="bucket-btn" type="button" class="btn btn-success">
             + Add to Bucket List
           </button>
           <p id="bucket-msg" class="bucket-msg hidden" aria-live="polite"></p>
-        </form>
-        </form>
+        </div>
       </aside>
 
       <!-- Tabs -->
-      <section class="tabs-container">
+      <div class="tabs-container">
         <div class="tab-list" role="tablist" aria-label="Country information tabs">
-      <section class="tabs-container">
-        <nav class="tab-list" role="tablist" aria-label="Country information tabs">
           <button type="button" class="tab-btn active" role="tab" aria-selected="true"  aria-controls="overview" data-tab="overview">Overview</button>
           <button type="button" class="tab-btn"        role="tab" aria-selected="false" aria-controls="history"  data-tab="history">History &amp; Culture</button>
           <button type="button" class="tab-btn"        role="tab" aria-selected="false" aria-controls="seasons"  data-tab="seasons">Best Time to Visit</button>
           <button type="button" class="tab-btn"        role="tab" aria-selected="false" aria-controls="cities"   data-tab="cities">Major Cities</button>
-        </nav>
+        </div>
 
         <!-- Overview Tab -->
-        <section id="overview" class="tab-panel active" role="tabpanel" aria-label="Overview">
+        <div id="overview" class="tab-panel active" role="tabpanel" aria-label="Overview">
           <h2>Overview</h2>
           <dl class="info-grid">
             <dt>Capital</dt>    <dd id="capital">—</dd>
@@ -91,37 +151,36 @@
             <dt>Languages</dt>  <dd id="languages">—</dd>
             <dt>Currencies</dt> <dd id="currencies">—</dd>
           </dl>
-        </section>
+        </div>
 
         <!-- History & Culture Tab -->
-        <section id="history" class="tab-panel" role="tabpanel" aria-label="History and culture">
+        <div id="history" class="tab-panel" role="tabpanel" aria-label="History and culture">
           <h2>History &amp; Culture</h2>
           <img id="wiki-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" class="wiki-thumbnail hidden">
           <p id="wiki-extract"></p>
-          <footer class="source-note">
+          <p class="source-note">
             Source: <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>
-          </footer>
-        </section>
+          </p>
+        </div>
 
         <!-- Best Time to Visit Tab -->
-        <section id="seasons" class="tab-panel" role="tabpanel" aria-label="Best time to visit">
+        <div id="seasons" class="tab-panel" role="tabpanel" aria-label="Best time to visit">
           <h2>Best Time to Visit</h2>
-          <section id="seasons-content"></section>
-        </section>
+          <div id="seasons-content"></div>
+        </div>
 
         <!-- Major Cities Tab -->
-        <section id="cities" class="tab-panel" role="tabpanel" aria-label="Major cities">
+        <div id="cities" class="tab-panel" role="tabpanel" aria-label="Major cities">
           <h2>Major Cities</h2>
           <div id="cities-content"></div>
-        </section>
-    </section>
+        </div>
+      </div>
 
     </section>
   </main>
 
   <!-- Shared footer injected by country.js -->
-  <footer id="footer-placeholder"></footer>
-  
+  <div id="footer-placeholder"></div>
 
   <script type="module" src="js/country.js"></script>
 </body>
