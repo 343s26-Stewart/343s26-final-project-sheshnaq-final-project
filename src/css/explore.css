@@ -1,0 +1,121 @@
+/* explore.css — Styles for the Explore page */
+
+/* ── Hero tweak ── */
+.explore-hero {
+  padding: 3.5rem var(--space-lg);
+}
+
+/* ── Controls bar ── */
+.explore-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0 var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-lg);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.filter-select {
+  padding: 0.55rem 2rem 0.55rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236c757d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  transition: border-color var(--transition);
+  min-width: 150px;
+}
+
+.filter-select:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+.results-count {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.clear-btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+/* ── Explore grid (wider columns than home) ── */
+.explore-grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Region badge on card ── */
+.region-badge {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Error state override (flex column for icon + text + button) ── */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-lg);
+  margin: var(--space-lg) auto;
+}
+
+.error-icon { font-size: 2rem; }
+
+.retry-btn { margin-top: 0.25rem; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .explore-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .results-count {
+    margin-left: 0;
+  }
+
+  .explore-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-select {
+    min-width: 100%;
+  }
+}

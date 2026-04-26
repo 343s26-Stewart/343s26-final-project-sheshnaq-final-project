@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore — Wanderlist</title>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/explore.css">
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="hero explore-hero" aria-labelledby="explore-heading">
+      <div class="hero-content">
+        <h1 class="hero-title" id="explore-heading">Explore the World</h1>
+        <p class="hero-subtitle">Search and filter all 250+ countries</p>
+
+        <form class="search-bar" role="search" id="explore-form" autocomplete="off">
+          <label for="explore-input" class="sr-only">Search for a country</label>
+          <input
+            type="search"
+            id="explore-input"
+            name="q"
+            placeholder='Search countries…'
+            autocapitalize="words"
+            spellcheck="false"
+          >
+          <button type="submit" class="btn btn-white">Search</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="container">
+
+      <!-- Controls bar -->
+      <div class="explore-controls" role="search" aria-label="Filter and sort countries">
+
+        <div class="filter-group">
+          <label for="region-filter" class="filter-label">Region</label>
+          <select id="region-filter" class="filter-select" aria-label="Filter by region">
+            <option value="">All Regions</option>
+            <option value="Africa">Africa</option>
+            <option value="Americas">Americas</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Oceania">Oceania</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="sort-select" class="filter-label">Sort by</label>
+          <select id="sort-select" class="filter-select" aria-label="Sort countries">
+            <option value="name-asc">Name A–Z</option>
+            <option value="name-desc">Name Z–A</option>
+            <option value="pop-desc">Population ↓</option>
+            <option value="pop-asc">Population ↑</option>
+          </select>
+        </div>
+
+        <p class="results-count" id="results-count" aria-live="polite" aria-atomic="true"></p>
+
+        <button id="clear-btn" class="btn btn-outline clear-btn hidden" type="button">
+          Clear filters
+        </button>
+
+      </div>
+
+      <!-- Loading -->
+      <div id="loading" class="loading-state" role="status" aria-live="polite">
+        <div class="spinner"></div>
+        <p>Loading countries…</p>
+      </div>
+
+      <!-- Error -->
+      <div id="error-message" class="error-state hidden" role="alert" aria-live="assertive">
+        <span class="error-icon">⚠️</span>
+        <span id="error-text">Something went wrong.</span>
+        <button class="btn btn-outline retry-btn" onclick="location.reload()">Try Again</button>
+      </div>
+
+      <!-- No results -->
+      <div id="no-results" class="empty-state hidden" aria-live="polite">
+        <p>No countries match your search.</p>
+        <button id="no-results-clear" class="btn btn-outline" type="button">Clear filters</button>
+      </div>
+
+      <!-- Grid -->
+      <div id="explore-grid" class="card-grid explore-grid" aria-label="Country results"></div>
+
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script type="module" src="js/explore.js"></script>
+</body>
+</html>
