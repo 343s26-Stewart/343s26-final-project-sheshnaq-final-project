@@ -340,6 +340,16 @@
   font-weight: 500;
 }
 
+.bucket-teaser .btn-outline {
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+.bucket-teaser .btn-outline:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #fff;
+}
+
 [data-theme="dark"] .bucket-teaser p { color: var(--color-primary); }
 
 /* ── Inline loading / error states ── */

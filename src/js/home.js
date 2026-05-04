@@ -27,22 +27,24 @@ function buildFeaturedCards() {
   if (!grid) return;
 
   grid.innerHTML = FEATURED.map(({ name, code, tagline }) => `
-    <a href="country.html?name=${encodeURIComponent(name)}"
-       class="country-card"
-       aria-label="${name} — ${tagline}">
-      <img
-        class="country-card-flag"
-        src="https://flagcdn.com/w320/${code}.png"
-        alt="Flag of ${name}"
-        loading="lazy"
-        width="320"
-        height="213"
-      >
-      <div class="country-card-body">
-        <p class="country-card-name">${name}</p>
-        <p class="country-card-tagline">${tagline}</p>
-      </div>
-    </a>`).join('');
+    <li>
+      <a href="country.html?name=${encodeURIComponent(name)}"
+         class="country-card"
+         aria-label="${name} — ${tagline}">
+        <img
+          class="country-card-flag"
+          src="https://flagcdn.com/w320/${code}.png"
+          alt="Flag of ${name}"
+          loading="lazy"
+          width="320"
+          height="213"
+        >
+        <div class="country-card-body">
+          <p class="country-card-name">${name}</p>
+          <p class="country-card-tagline">${tagline}</p>
+        </div>
+      </a>
+    </li>`).join('');
 }
 
 buildFeaturedCards();

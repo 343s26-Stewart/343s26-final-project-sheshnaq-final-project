@@ -3,7 +3,7 @@
 /* ── Design Tokens ── */
 :root {
   /* Colors */
-  --color-primary:       #2980b9;
+  --color-primary:       #236fa3;
   --color-primary-dark:  #1f618d;
   --color-primary-light: #d6eaf8;
   --color-success:       #1e7e34;
@@ -17,7 +17,7 @@
   --color-bg-alt:    #f8f9fa;
   --color-border:    #dee2e6;
   --color-text:      #212529;
-  --color-text-muted:#6c757d;
+  --color-text-muted:#666e76;
 
   /* Shape */
   --radius-sm:   4px;
