@@ -27,6 +27,26 @@ let query        = '';
 let region       = '';
 let sort         = 'name-asc';
 
+// ── URL sync (S35 — shareable URLs) ───────────────────────────────────────────
+function readURLParams() {
+  const p = new URLSearchParams(location.search);
+  query  = p.get('q')      || '';
+  region = p.get('region') || '';
+  sort   = p.get('sort')   || 'name-asc';
+  searchInput.value  = query;
+  regionFilter.value = region;
+  sortSelect.value   = sort;
+}
+
+function pushURLState() {
+  const p = new URLSearchParams();
+  if (query)               p.set('q',      query);
+  if (region)              p.set('region', region);
+  if (sort !== 'name-asc') p.set('sort',   sort);
+  const qs = p.toString();
+  history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+}
+
 // ── Fetch all countries ───────────────────────────────────────────────────────
 async function loadAllCountries() {
   showLoading(true);
@@ -53,6 +73,7 @@ async function loadAllCountries() {
 
 // ── Filter + sort + render ────────────────────────────────────────────────────
 function applyFilters() {
+  pushURLState();
   const q = query.toLowerCase().trim();
 
   let results = allCountries.filter(c => {
@@ -185,4 +206,5 @@ clearBtn.addEventListener('click', clearFilters);
 noResultsClear.addEventListener('click', clearFilters);
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
+readURLParams();
 loadAllCountries();

@@ -106,3 +106,65 @@ a { color: var(--color-primary); }
 }
 
 .hidden { display: none !important; }
+
+/* ── Print styles (S41) ── */
+@media print {
+  * {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  @page { margin: 2cm; }
+
+  body { font-size: 12pt; line-height: 1.5; }
+
+  /* Hide navigation chrome and interactive controls */
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .theme-toggle,
+  .nav-toggle,
+  .spinner,
+  .loading-state,
+  .error-state,
+  .explore-controls,
+  .bucket-form-card,
+  .tab-list,
+  .bucket-teaser,
+  #loading,
+  #error-message,
+  .btn { display: none !important; }
+
+  /* Show all tab panels on country detail page */
+  .tab-panel {
+    display: block !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .tab-panel + .tab-panel {
+    margin-top: 1.5rem;
+    border-top: 1px solid #ccc;
+    padding-top: 1rem;
+  }
+
+  /* Don't split cards across pages */
+  .country-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #ccc;
+  }
+
+  /* 3-column grid for explore page */
+  .explore-grid { grid-template-columns: repeat(3, 1fr) !important; }
+
+  /* Show link URLs (skip cards and brand to avoid noise) */
+  a[href]:not(.country-card):not(.nav-brand)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+  }
+
+  .wiki-thumbnail { float: none; max-width: 160px; }
+}
