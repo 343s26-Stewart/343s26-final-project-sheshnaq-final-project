@@ -135,6 +135,7 @@ a { color: var(--color-primary); }
   .bucket-teaser,
   #loading,
   #error-message,
+  .search-bar,
   .btn { display: none !important; }
 
   /* Show all tab panels on country detail page */
